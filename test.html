@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML Knowledge Quiz — 40 Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple-50: #EEEDFE;
+    --purple-200: #AFA9EC;
+    --purple-400: #7F77DD;
+    --purple-600: #534AB7;
+    --purple-800: #3C3489;
+    --purple-900: #26215C;
+    --teal-50: #E1F5EE;
+    --teal-400: #1D9E75;
+    --teal-800: #085041;
+    --green-50: #EAF3DE;
+    --green-400: #639922;
+    --green-800: #27500A;
+    --red-50: #FCEBEB;
+    --red-400: #E24B4A;
+    --red-800: #791F1F;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --amber-400: #BA7517;
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --text: #1C1B18;
+    --text-muted: #5F5E5A;
+    --border: rgba(28,27,24,0.12);
+    --border-strong: rgba(28,27,24,0.22);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── background pattern ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(127,119,221,0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(29,158,117,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  /* ── header ── */
+  .site-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo-mark {
+    width: 44px; height: 44px;
+    background: var(--purple-600);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .header-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .scoring-badge {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+  }
+  .badge-green { background: var(--green-50); color: var(--green-800); }
+  .badge-red { background: var(--red-50); color: var(--red-800); }
+
+  /* ── progress ── */
+  .progress-section { margin-bottom: 1.5rem; }
+  .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 13px; color: var(--text-muted); }
+  .progress-count { font-size: 13px; font-weight: 500; font-family: 'DM Mono', monospace; color: var(--purple-600); }
+  .bar-track { height: 5px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--purple-600), var(--purple-400)); border-radius: 3px; transition: width 0.35s cubic-bezier(.4,0,.2,1); }
+
+  /* ── navigator dots ── */
+  .navigator { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1.5rem; }
+  .nav-dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    font-size: 11px; font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-family: 'DM Mono', monospace;
+  }
+  .nav-dot:hover { border-color: var(--purple-400); color: var(--purple-600); }
+  .nav-dot.answered { background: var(--purple-50); border-color: var(--purple-400); color: var(--purple-800); }
+  .nav-dot.current { background: var(--purple-600); border-color: var(--purple-600); color: #fff; }
+
+  /* ── question card ── */
+  .question-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    animation: fadeUp 0.2s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .q-number {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--purple-600);
+    background: var(--purple-50);
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .q-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-btn {
+    text-align: left;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .opt-btn:hover { border-color: var(--purple-400); background: var(--purple-50); }
+  .opt-btn.selected { border-color: var(--purple-600); background: var(--purple-50); color: var(--purple-900); }
+  .opt-key {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    background: var(--gray-100);
+    font-size: 11px; font-weight: 600;
+    color: var(--gray-600);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    transition: all 0.15s;
+  }
+  .opt-btn.selected .opt-key { background: var(--purple-600); color: #fff; }
+
+  /* ── nav row ── */
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .nav-left { display: flex; gap: 10px; }
+  .btn { padding: 9px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border-strong); color: var(--text); }
+  .btn-ghost:hover { background: var(--surface); border-color: var(--border-strong); }
+  .btn-primary { background: var(--purple-600); border: none; color: #fff; }
+  .btn-primary:hover { background: var(--purple-800); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .answered-counter { font-size: 13px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+
+  /* ── result page ── */
+  #result-page { display: none; animation: fadeUp 0.3s ease; }
+
+  .result-hero {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .score-ring-wrap { margin: 0 auto 1.5rem; width: 130px; height: 130px; position: relative; }
+  .score-ring-wrap svg { width: 130px; height: 130px; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--gray-100); stroke-width: 8; }
+  .ring-fill { fill: none; stroke: var(--purple-400); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1); }
+  .score-label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+  }
+  .score-num { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--purple-800); line-height: 1; }
+  .score-denom { font-size: 12px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+  .result-grade { font-family: 'DM Serif Display', serif; font-size: 24px; font-weight: 400; color: var(--text); margin-bottom: 6px; }
+  .result-sub { font-size: 13px; color: var(--text-muted); }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  .metric-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; text-align: center; }
+  .metric-val { font-size: 26px; font-weight: 600; font-family: 'DM Serif Display', serif; }
+  .metric-lbl { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .mv-correct { color: var(--green-400); }
+  .mv-wrong { color: var(--red-400); }
+  .mv-skip { color: var(--gray-400); }
+
+  .review-section { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .review-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .review-header span { font-size: 14px; font-weight: 500; color: var(--text); }
+  .review-list { }
+  .review-item {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 13px;
+    border-left: 3px solid transparent;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-item.ri-correct { border-left-color: var(--green-400); }
+  .review-item.ri-wrong { border-left-color: var(--red-400); }
+  .review-item.ri-skip { border-left-color: var(--gray-400); }
+  .ri-q { font-weight: 500; color: var(--text); margin-bottom: 5px; line-height: 1.45; }
+  .ri-row { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .ri-your-correct { color: var(--green-400); font-weight: 500; }
+  .ri-your-wrong { color: var(--red-400); font-weight: 500; }
+  .ri-correct-ans { color: var(--green-400); font-weight: 500; }
+
+  .retry-row { display: flex; justify-content: center; gap: 12px; margin-top: 1.5rem; }
+
+  /* ── responsive ── */
+  @media (max-width: 500px) {
+    .scoring-badge { display: none; }
+    .metrics-grid { grid-template-columns: repeat(3, 1fr); }
+    .nav-dot { width: 26px; height: 26px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="site-header">
+    <div class="logo-mark">&lt;/&gt;</div>
+    <div class="header-text">
+      <h1>HTML Knowledge Quiz</h1>
+      <p>40 questions · Test your HTML fundamentals</p>
+    </div>
+    <div class="scoring-badge">
+      <span class="badge badge-green">+1 correct</span>
+      <span class="badge badge-red">−1 wrong</span>
+    </div>
+  </div>
+
+  <!-- Quiz page -->
+  <div id="quiz-page">
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-label" id="q-label">Question 1 of 40</span>
+        <span class="progress-count" id="q-answered">0 / 40 answered</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="bar" style="width:2.5%"></div></div>
+    </div>
+
+    <div class="navigator" id="navigator"></div>
+
+    <div class="question-card" id="q-card">
+      <div class="q-number" id="q-num">Q 01</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="q-opts"></div>
+    </div>
+
+    <div class="nav-row">
+      <div class="nav-left">
+        <button class="btn btn-ghost" id="btn-prev" onclick="goTo(currentQ-1)">← Prev</button>
+        <button class="btn btn-ghost" id="btn-next" onclick="goTo(currentQ+1)">Next →</button>
+      </div>
+      <span class="answered-counter" id="nav-counter"></span>
+      <button class="btn btn-primary" id="btn-submit" onclick="submitQuiz()" disabled>Submit Quiz</button>
+    </div>
+  </div>
+
+  <!-- Result page -->
+  <div id="result-page">
+    <div class="result-hero">
+      <div class="score-ring-wrap">
+        <svg viewBox="0 0 130 130">
+          <circle class="ring-bg" cx="65" cy="65" r="56"/>
+          <circle class="ring-fill" id="ring-fill" cx="65" cy="65" r="56" stroke-dasharray="351.86" stroke-dashoffset="351.86"/>
+        </svg>
+        <div class="score-label">
+          <div class="score-num" id="r-score">0</div>
+          <div class="score-denom">/ 40</div>
+        </div>
+      </div>
+      <div class="result-grade" id="r-grade"></div>
+      <div class="result-sub">+1 correct · −1 wrong · 0 skipped</div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card"><div class="metric-val mv-correct" id="r-correct">0</div><div class="metric-lbl">Correct</div></div>
+      <div class="metric-card"><div class="metric-val mv-wrong" id="r-wrong">0</div><div class="metric-lbl">Wrong</div></div>
+      <div class="metric-card"><div class="metric-val mv-skip" id="r-skip">0</div><div class="metric-lbl">Skipped</div></div>
+    </div>
+
+    <div class="review-section">
+      <div class="review-header">
+        <span>Answer Review</span>
+      </div>
+      <div class="review-list" id="review-list"></div>
+    </div>
+
+    <div class="retry-row">
+      <button class="btn btn-primary" onclick="retryQuiz()">Retake Quiz</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language","High Tech Machine Language","Hyper Transfer Markup Language","Hyper Text Modern Language"], ans: 0 },
+  { q: "Which tag is used to define the largest heading in HTML?", opts: ["&lt;h6&gt;","&lt;heading&gt;","&lt;h1&gt;","&lt;head&gt;"], ans: 2 },
+  { q: "Which HTML element is used to insert an image?", opts: ["&lt;picture&gt;","&lt;img&gt;","&lt;image&gt;","&lt;src&gt;"], ans: 1 },
+  { q: "What is the correct HTML element for inserting a line break?", opts: ["&lt;lb&gt;","&lt;break&gt;","&lt;br&gt;","&lt;newline&gt;"], ans: 2 },
+  { q: "Which attribute specifies the URL of an image in the &lt;img&gt; tag?", opts: ["href","link","src","url"], ans: 2 },
+  { q: "Which tag is used to create a hyperlink?", opts: ["&lt;link&gt;","&lt;a&gt;","&lt;href&gt;","&lt;nav&gt;"], ans: 1 },
+  { q: "What is the correct HTML element for a paragraph?", opts: ["&lt;para&gt;","&lt;text&gt;","&lt;p&gt;","&lt;pg&gt;"], ans: 2 },
+  { q: "Which HTML attribute is used to define inline styles?", opts: ["class","css","font","style"], ans: 3 },
+  { q: "Which element is used to define the title of a document shown in the browser tab?", opts: ["&lt;header&gt;","&lt;meta&gt;","&lt;title&gt;","&lt;head&gt;"], ans: 2 },
+  { q: "What is the correct HTML for creating an unordered list?", opts: ["&lt;ol&gt;","&lt;ul&gt;","&lt;list&gt;","&lt;li&gt;"], ans: 1 },
+  { q: "Which HTML element defines a table row?", opts: ["&lt;th&gt;","&lt;tr&gt;","&lt;td&gt;","&lt;row&gt;"], ans: 1 },
+  { q: "Which element is used for a table header cell?", opts: ["&lt;th&gt;","&lt;td&gt;","&lt;thead&gt;","&lt;tr&gt;"], ans: 0 },
+  { q: "Which tag is used to define a form in HTML?", opts: ["&lt;input&gt;","&lt;form&gt;","&lt;submit&gt;","&lt;fieldset&gt;"], ans: 1 },
+  { q: "Which input type creates a checkbox?", opts: ["type='check'","type='tick'","type='checkbox'","type='box'"], ans: 2 },
+  { q: "What does the &lt;!DOCTYPE html&gt; declaration do?", opts: ["Links CSS to the page","Tells the browser this is HTML5","Defines a database","Imports JavaScript"], ans: 1 },
+  { q: "Which HTML element is used to define emphasized (italic-style) text?", opts: ["&lt;italic&gt;","&lt;i&gt;","&lt;em&gt;","&lt;b&gt;"], ans: 2 },
+  { q: "Which element makes text bold with strong importance?", opts: ["&lt;bold&gt;","&lt;strong&gt;","&lt;b&gt;","&lt;mark&gt;"], ans: 1 },
+  { q: "Which attribute is required for all &lt;img&gt; tags for accessibility?", opts: ["title","alt","src","id"], ans: 1 },
+  { q: "What is the correct HTML for making a drop-down list?", opts: ["&lt;list&gt;","&lt;input type='dropdown'&gt;","&lt;select&gt;","&lt;drop&gt;"], ans: 2 },
+  { q: "Which HTML element is used to define a footer?", opts: ["&lt;bottom&gt;","&lt;section&gt;","&lt;footer&gt;","&lt;end&gt;"], ans: 2 },
+  { q: "Which attribute is used to open a hyperlink in a new tab?", opts: ["target='new'","target='_blank'","target='tab'","open='true'"], ans: 1 },
+  { q: "Which HTML tag is used for a large block of quoted text?", opts: ["&lt;cite&gt;","&lt;q&gt;","&lt;blockquote&gt;","&lt;quote&gt;"], ans: 2 },
+  { q: "What is the purpose of the &lt;head&gt; element?", opts: ["Displays the page header","Contains metadata about the document","Wraps the navigation","Defines the page title bar color"], ans: 1 },
+  { q: "Which tag creates an ordered (numbered) list?", opts: ["&lt;ul&gt;","&lt;dl&gt;","&lt;ol&gt;","&lt;li&gt;"], ans: 2 },
+  { q: "What is the correct HTML to add a background color to a div?", opts: ["&lt;div background='red'&gt;","&lt;div style='background-color:red'&gt;","&lt;div color='red'&gt;","&lt;div bgcolor='red'&gt;"], ans: 1 },
+  { q: "Which HTML element is used to define navigation links?", opts: ["&lt;menu&gt;","&lt;nav&gt;","&lt;link&gt;","&lt;header&gt;"], ans: 1 },
+  { q: "Which character entity is used for a non-breaking space in HTML?", opts: ["&amp;amp;","&amp;nbsp;","&amp;sp;","&amp;space;"], ans: 1 },
+  { q: "Which element is used to group inline elements for styling?", opts: ["&lt;div&gt;","&lt;section&gt;","&lt;span&gt;","&lt;group&gt;"], ans: 2 },
+  { q: "Which tag is used to embed a video in HTML5?", opts: ["&lt;media&gt;","&lt;embed&gt;","&lt;movie&gt;","&lt;video&gt;"], ans: 3 },
+  { q: "What does the 'href' attribute do in an anchor tag?", opts: ["Specifies the image source","Defines the link destination URL","Sets the link color","Adds a tooltip"], ans: 1 },
+  { q: "Which input type is used for password fields?", opts: ["type='hidden'","type='secure'","type='password'","type='text'"], ans: 2 },
+  { q: "Which HTML element defines the main content of a document?", opts: ["&lt;content&gt;","&lt;article&gt;","&lt;main&gt;","&lt;body&gt;"], ans: 2 },
+  { q: "What is the correct HTML for adding a comment?", opts: ["// comment //","/* comment */","&lt;!-- comment --&gt;","&lt;! comment !&gt;"], ans: 2 },
+  { q: "What is the default display property of a &lt;div&gt; element?", opts: ["inline","inline-block","block","none"], ans: 2 },
+  { q: "Which HTML5 element represents a self-contained composition like a blog post?", opts: ["&lt;section&gt;","&lt;article&gt;","&lt;aside&gt;","&lt;figure&gt;"], ans: 1 },
+  { q: "Which attribute specifies that an input field must be filled out before submitting?", opts: ["validate","important","required","mandatory"], ans: 2 },
+  { q: "What tag is used to define a table data cell?", opts: ["&lt;tr&gt;","&lt;th&gt;","&lt;tc&gt;","&lt;td&gt;"], ans: 3 },
+  { q: "Which HTML element is used to display a scalar measurement within a known range?", opts: ["&lt;progress&gt;","&lt;gauge&gt;","&lt;meter&gt;","&lt;range&gt;"], ans: 2 },
+  { q: "Which element is used to define contact or authorship information?", opts: ["&lt;contact&gt;","&lt;address&gt;","&lt;footer&gt;","&lt;info&gt;"], ans: 1 },
+  { q: "Which HTML attribute specifies a unique ID for an element?", opts: ["class","name","key","id"], ans: 3 },
+];
+
+let currentQ = 0;
+let answers = Array(40).fill(null);
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function renderNavigator() {
+  const nav = document.getElementById('navigator');
+  nav.innerHTML = questions.map((_, i) =>
+    `<div class="nav-dot ${i === currentQ ? 'current' : answers[i] !== null ? 'answered' : ''}" onclick="goTo(${i})">${pad(i+1)}</div>`
+  ).join('');
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-label').textContent = `Question ${currentQ + 1} of 40`;
+  document.getElementById('q-num').textContent = `Q ${pad(currentQ + 1)}`;
+  document.getElementById('q-text').innerHTML = q.q;
+  const opts = document.getElementById('q-opts');
+  opts.innerHTML = q.opts.map((opt, i) =>
+    `<button class="opt-btn${answers[currentQ] === i ? ' selected' : ''}" onclick="selectAnswer(${i})">
+      <span class="opt-key">${String.fromCharCode(65+i)}</span>${opt}
+    </button>`
+  ).join('');
+  document.getElementById('btn-prev').style.visibility = currentQ > 0 ? 'visible' : 'hidden';
+  document.getElementById('btn-next').style.visibility = currentQ < 39 ? 'visible' : 'hidden';
+  const answered = answers.filter(a => a !== null).length;
+  document.getElementById('q-answered').textContent = `${answered} / 40 answered`;
+  document.getElementById('nav-counter').textContent = `${answered} of 40 answered`;
+  document.getElementById('bar').style.width = `${((currentQ + 1) / 40) * 100}%`;
+  document.getElementById('btn-submit').disabled = answered < 40;
+  renderNavigator();
+  document.getElementById('q-card').style.animation = 'none';
+  requestAnimationFrame(() => { document.getElementById('q-card').style.animation = ''; });
+}
+
+function goTo(i) {
+  if (i < 0 || i > 39) return;
+  currentQ = i;
+  renderQuestion();
+}
+
+function selectAnswer(i) {
+  answers[currentQ] = i;
+  renderQuestion();
+}
+
+function submitQuiz() {
+  if (answers.filter(a => a !== null).length < 40) return;
+  let correct = 0, wrong = 0, skipped = 0;
+  answers.forEach((ans, i) => {
+    if (ans === null) skipped++;
+    else if (ans === questions[i].ans) correct++;
+    else wrong++;
+  });
+  const score = correct - wrong;
+
+  document.getElementById('r-score').textContent = score;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skip').textContent = skipped;
+
+  const grades = [
+    [35, 'Outstanding work!'],
+    [28, 'Excellent!'],
+    [20, 'Good effort!'],
+    [10, 'Keep practising'],
+    [-Infinity, 'Needs more study'],
+  ];
+  document.getElementById('r-grade').textContent = grades.find(([t]) => score >= t)[1];
+
+  const pct = Math.max(0, score / 40);
+  const circ = 2 * Math.PI * 56;
+  setTimeout(() => {
+    document.getElementById('ring-fill').style.strokeDashoffset = circ * (1 - pct);
+    const color = score >= 28 ? '#639922' : score >= 10 ? '#7F77DD' : '#E24B4A';
+    document.getElementById('ring-fill').style.stroke = color;
+  }, 100);
+
+  const reviewHTML = questions.map((q, i) => {
+    const userAns = answers[i];
+    const isCorrect = userAns === q.ans;
+    const isSkip = userAns === null;
+    const cls = isSkip ? 'ri-skip' : isCorrect ? 'ri-correct' : 'ri-wrong';
+    return `<div class="review-item ${cls}">
+      <div class="ri-q">Q${i+1}. ${q.q}</div>
+      ${!isSkip
+        ? `<div class="ri-row">Your answer: <span class="${isCorrect ? 'ri-your-correct' : 'ri-your-wrong'}">${q.opts[userAns]}</span></div>`
+        : `<div class="ri-row" style="color:var(--gray-400)">Not answered</div>`}
+      ${(!isCorrect && !isSkip) ? `<div class="ri-row">Correct: <span class="ri-correct-ans">${q.opts[q.ans]}</span></div>` : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('review-list').innerHTML = reviewHTML;
+
+  document.getElementById('quiz-page').style.display = 'none';
+  document.getElementById('result-page').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retryQuiz() {
+  answers = Array(40).fill(null);
+  currentQ = 0;
+  document.getElementById('quiz-page').style.display = 'block';
+  document.getElementById('result-page').style.display = 'none';
+  document.getElementById('ring-fill').style.strokeDashoffset = '351.86';
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
